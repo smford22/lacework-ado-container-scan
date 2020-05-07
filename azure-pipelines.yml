@@ -1,19 +1,15 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
 
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+container: techallylw/lacework-cli:ubuntu-1804
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+steps:
+- script: lacework vul report sha256:fa31faba325ec777ad2a5d72689c4f9e1e31bc1e9bc3bd2fd98197e0d1125688 --details
+  displayName: 'lacework-cli vulnerability report'
+  env:
+    LW_ACCOUNT: $(LW_ACCOUNT)
+    LW_API_KEY: $(LW_API_KEY)
+    LW_API_SECRET: $(LW_API_SECRET)
